@@ -130,6 +130,22 @@ function composeb(var1, var2) {
 }
 
 /*
+*function that 
+	makes the function (in argument) to be called only once.
+* log(composeb(add, mul)(2,3,7));
+*/
+function once(var1) {
+	var flag = true;
+	return function(var2, var3) {
+		if(flag) {
+			flag = false;
+			return var1(var2, var3);
+		}
+		return undefined;
+	};
+}
+
+/*
 #####USAGE#####
 log(identity(5));
 log(add(3,4));
@@ -171,6 +187,10 @@ var square = twice(mul);
 log(composeu(doubl, square)(5));
 
 log(composeb(add, mul)(2,3,7));
+
+var add_once = once(add);
+log(add_once(3,4));
+log(add_once(3,5));
 */
 
 
