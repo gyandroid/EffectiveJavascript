@@ -106,6 +106,18 @@ function reverse(var1) {
 }
 
 /*
+*function that 
+	takes 2 functions and returns a unary function that calls them both(kinda like pipe)
+* var doubl = twice(add);
+var square = twice(mul);
+log(composeu(doubl, square)(5));
+*/
+function composeu(var1, var2) {
+	return function(var3) {
+		return var2(var1(var3));
+	};
+}
+/*
 #####USAGE#####
 log(identity(5));
 log(add(3,4));
@@ -141,6 +153,10 @@ log(square(11));
 
 var bus = reverse(sub);
 log(bus(3,2));
+
+var doubl = twice(add);
+var square = twice(mul);
+log(composeu(doubl, square)(5));
 */
 
 
