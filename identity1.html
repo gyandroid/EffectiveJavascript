@@ -1,0 +1,150 @@
+<html>
+<body>
+<pre>
+<script>
+
+function log(arg) {
+	document.writeln(arg);
+}
+function identity(x) {
+	return (x);
+}
+function add(var1, var2) {
+	return var1 + var2;
+}
+function sub(var1, var2) {
+	return var1 - var2;
+}
+function mul(var1, var2) {
+	return var1 * var2;
+}
+
+/*
+funtion that takes an argument and returns a function that returns that argument
+*/
+function identityf(var1) {
+	return function() {
+		return var1;
+	};
+}
+
+/*
+funtion that adds from two invocations 
+* Usage: addf(3)(4)
+*/
+function addf(var1) {
+	return function(var2) {
+		return var1 + var2;
+	};
+}
+
+/*
+*function that 
+	takes a binary function and makes it callable with two invocations
+* Usage: var addf= liftf(add);
+log(addf(3)(4));
+log(liftf(mul)(5)(6));
+*/
+function liftf(var1) {
+	return function(var2) {
+		return function(var3) {
+			return var1(var2, var3);
+		};
+	};
+}
+
+/*
+*function that 
+	takes a function and  an argument and returns a function that can take a second argument
+* var add3 = curry(add, 3);
+log(add3(4));
+log(curry(mul, 5)(6));
+*/
+function curry(var1, var2) {
+	return function(var3) {
+		return var1(var2, var3);
+	};
+}
+
+/*
+*function that 
+	takes a function and  an argument and returns a function that can take a second argument
+* var add3 = curry(add, 3);
+log(add3(4));
+log(curry(mul, 5)(6));
+*/
+function curry(var1, var2) {
+	return function(var3) {
+		return var1(var2, var3);
+	};
+}
+
+/*
+*function that 
+	takes a binary function and returns a unary function that passes its agument to the binary function twice.
+* var doubl = twice(add);
+log(doubl(11));
+var square = twice(mul);
+log(square(11));
+*/
+function twice(var1) {
+	return function(var2) {
+		return var1(var2, var2);
+	};
+}
+
+/*
+*function that 
+	reverses the argument of the binary function
+* var bus = reverse(sub);
+log(bus(3,2));
+*/
+function reverse(var1) {
+	return function(var2, var3) {
+		return var1(var3, var2);
+	};
+}
+
+/*
+#####USAGE#####
+log(identity(5));
+log(add(3,4));
+log(sub(3,4));
+log(mul(3,4));
+var three = identityf(3);
+log(three());
+log(addf(3)(4)); 
+
+var addf= liftf(add);
+log(addf(3)(4));
+log(liftf(mul)(5)(6));
+
+var add3 = curry(add, 3);
+log(add3(4));
+log(curry(mul, 5)(6));
+
+
+// Without writing new functions show 3 ways to create the inc function
+var inc = curry(add,1);
+log(inc(inc(5)));
+var inc1 = liftf(add)(1);
+log(inc1(inc1(1)));
+var inc2 = addf(1);
+log(inc2(inc(7)));
+
+
+var doubl = twice(add);
+log(doubl(11));
+var square = twice(mul);
+log(square(11));
+
+
+var bus = reverse(sub);
+log(bus(3,2));
+*/
+
+
+</script>
+</pre>
+</body>
+</html>
