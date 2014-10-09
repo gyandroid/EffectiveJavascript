@@ -66,18 +66,7 @@ function curry(var1, var2) {
 	};
 }
 
-/*
-*function that 
-	takes a function and  an argument and returns a function that can take a second argument
-* var add3 = curry(add, 3);
-log(add3(4));
-log(curry(mul, 5)(6));
-*/
-function curry(var1, var2) {
-	return function(var3) {
-		return var1(var2, var3);
-	};
-}
+
 
 /*
 *function that 
@@ -247,6 +236,59 @@ function gensymf(var1) {
 		return var1+(number);
 	};
 }
+
+function gensymff(var1, var2) {
+	return function (var3) {
+		var number = var2;
+		return function() {
+			number = var1(number);
+			return var3+number;
+		}
+	};
+}
+
+function fibonaccif(var1, var2) {
+	return function () {
+		var num = var1;
+		var1 = var2;
+		var2 += num;
+		return (num);
+	};
+}
+//########################### OBJECTS ###########
+/*
+
+Object way of writing a javascript
+*/
+function counter(value) {
+	return {
+		next: function() {
+			value += 1;
+			return value;
+		},
+		prev: function() {
+			value -= 1;
+			return value;
+		}
+	};
+}
+
+/* REvocable  Useful for not allowing a third party to access any function*/
+function revocable(value) {
+	var isInvokable = true;
+	return {
+		invoke: function(param) {
+			if(isInvokable) {
+				return value(param);
+			} else {
+				return undefined;
+			}
+		},
+		revoke: function() {
+			isInvokable = false;
+		}
+	};
+}
 /*
 #####USAGE#####
 log(identity(5));
@@ -340,8 +382,10 @@ log(con());
 log(con());
 log(con());
 log(con());
-*/
 
+
+var inc = curry(add,1);
+var gensymf = gensymff(inc, 0);
 var geng = gensymf("G");
 var genh = gensymf("H");
 log(geng());
@@ -349,6 +393,34 @@ log(genh());
 
 log(geng());
 log(genh());
+
+
+var fib = fibonaccif(0, 1);
+log(fib());
+log(fib());
+log(fib());
+log(fib());
+log(fib());
+log(fib());
+log(fib());
+log(fib());
+log(fib());
+log(fib());
+log(fib());
+
+
+var object = counter(10), next = object.next, prev = object.prev;
+log(next());
+log(prev());
+log(prev());
+log(next());
+
+
+var rev = revocable(identity), invoke = rev.invoke;
+log(invoke(7));
+rev.revoke();
+log(invoke(8));
+*/
 </script>
 </pre>
 </body>
