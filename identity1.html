@@ -275,19 +275,56 @@ function counter(value) {
 
 /* REvocable  Useful for not allowing a third party to access any function*/
 function revocable(value) {
-	var isInvokable = true;
 	return {
 		invoke: function(param) {
-			if(isInvokable) {
+			if(value !== undefined) {
 				return value(param);
-			} else {
-				return undefined;
 			}
 		},
 		revoke: function() {
-			isInvokable = false;
+			value = undefined;
 		}
 	};
+}
+
+function m(value, source) {
+	return {
+		value: value,
+		source: typeof source === 'string'
+		? source
+		: String(value)
+	};
+}
+
+function addm(m1, m2) {
+		return m(
+			m1.value + m2. value,
+			"("+m1.source+"+"+m2.source+")"
+		);
+}
+
+//##### MONAD#####
+function liftm(m1, m2) {
+		return function(op1, op2){
+			return m(
+				m1(op1.value, op2.value),
+				"("+op1.source+m2+op2.source+")"
+			)
+		};
+}
+
+/* Write a function addg that adds from many invocations, until it sees an empty invocation. (Hint::::Function that calls itself)
+
+addg()  undefined
+addg(2)()    2
+addg(2)(7)()   9
+addg(2)()    2
+addg(3)(4)(0)()   7
+addg(1)(2)(4)(8)() 15
+*/
+
+function addg() {
+
 }
 /*
 #####USAGE#####
@@ -420,7 +457,15 @@ var rev = revocable(identity), invoke = rev.invoke;
 log(invoke(7));
 rev.revoke();
 log(invoke(8));
+
+
+log(JSON.stringify(m(1)));
+log(JSON.stringify(addm(m(3), m(4))));
 */
+
+var addm = liftm(add, "+");
+log(JSON.stringify(addm(m(3), m(4))));
+log(JSON.stringify(liftm(mul, "*")(m(3), m(4))));
 </script>
 </pre>
 </body>
