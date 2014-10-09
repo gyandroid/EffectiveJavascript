@@ -117,6 +117,18 @@ function composeu(var1, var2) {
 		return var2(var1(var3));
 	};
 }
+
+/*
+*function that 
+	takes 2 functions and returns a function that calls them both(kinda like pipe)
+* log(composeb(add, mul)(2,3,7));
+*/
+function composeb(var1, var2) {
+	return function(var3, var4, var5) {
+		return var2(var1(var3, var4), var5);
+	};
+}
+
 /*
 #####USAGE#####
 log(identity(5));
@@ -157,6 +169,8 @@ log(bus(3,2));
 var doubl = twice(add);
 var square = twice(mul);
 log(composeu(doubl, square)(5));
+
+log(composeb(add, mul)(2,3,7));
 */
 
 
