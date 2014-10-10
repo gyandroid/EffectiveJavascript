@@ -323,9 +323,62 @@ addg(3)(4)(0)()   7
 addg(1)(2)(4)(8)() 15
 */
 
-function addg() {
+function addg(a){
+    function more(b) {
+      if(b === undefined) {
+        return a;
+      }
+      a += b;
+      return more;
+    }
 
+    if(a !== undefined) {
+      return more;
+    }
 }
+
+  //function that takes a binary function and applies it to many invocations
+function liftg(func) {
+    return function(a) {
+      if(a === undefined) {
+        return a;
+      }
+      return function more(b) {
+        if(b === undefined) {
+          return a;
+        }
+        a = func(a,b);
+        return more;
+      }
+    }
+  }
+
+  /*log(liftg(mul)());
+  log(liftg(mul)(3)());
+  log(liftg(mul)(3)(4)());
+  */
+
+  //function that builds an array from many invocations
+  function arrayg(a){
+    var arr = [];
+    function more(b) {
+      if(b === undefined) {
+        return arr;
+      }
+      arr.push(b);
+      return more;
+    }
+    return more(a);
+  }
+
+  //function that takes a unary function and returns a function that takes a callback and an argument
+  function continuize(func) {
+    return function (callback, value) {
+      return callback(func(value));
+    }
+  }
+
+  //continuize(Math.sqrt)(log,81);
 /*
 #####USAGE#####
 log(identity(5));
@@ -461,11 +514,12 @@ log(invoke(8));
 
 log(JSON.stringify(m(1)));
 log(JSON.stringify(addm(m(3), m(4))));
-*/
+
 
 var addm = liftm(add, "+");
 log(JSON.stringify(addm(m(3), m(4))));
 log(JSON.stringify(liftm(mul, "*")(m(3), m(4))));
+*/
 </script>
 </pre>
 </body>
